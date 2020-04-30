@@ -5,14 +5,14 @@ High performance Paper fork that aims to add more gameplay and mechanics.
 
 
 **Support and Project Discussion:**
- - [IRC](http://irc.spi.gt/iris/?channels=paper) or [Discord](https://discord.gg/papermc)
+ - [Discord](https://discord.io/skyv)
 
 
 How To (Server Admins)
 ------
-Paperclip is a jar file that you can download and run just like a normal jar file.
+Basaltshard is a jar file that you can download and run just like a normal jar file.
 
-Download Paper from our [downloads page](https://papermc.io/downloads).
+You cant download it right now.
 
 Run the Paperclip jar directly from your server. Just like old times
 
