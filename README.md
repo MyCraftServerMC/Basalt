@@ -36,7 +36,7 @@ How To (Plugin Developers)
 <dependency>
     <groupId>com.destroystokyo.paper</groupId>
     <artifactId>paper-api</artifactId>
-    <version>1.15.2-R0.1-SNAPSHOT</version>
+    <version>1.14.4-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
  </dependency>
  ```
@@ -50,10 +50,3 @@ Clone this repo, run `./paper jar` from *bash*, get files.
 How To (Pull Request)
 ------
 See [Contributing](CONTRIBUTING.md)
-
-Special Thanks To:
--------------
-
-![YourKit-Logo](https://www.yourkit.com/images/yklogo.png)
-
-[YourKit](http://www.yourkit.com/), makers of the outstanding java profiler, support open source projects of all kinds with their full featured [Java](https://www.yourkit.com/java/profiler/index.jsp) and [.NET](https://www.yourkit.com/.net/profiler/index.jsp) application profilers. We thank them for granting Paper an OSS license so that we can make our software the best it can be.
