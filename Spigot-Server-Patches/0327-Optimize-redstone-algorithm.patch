@@ -1,4 +1,4 @@
-From 0eed64a22346b109b59a6ed9c885b2426f86bfb9 Mon Sep 17 00:00:00 2001
+From a842524bd4b511777907563e1c3b06fc5d8eddef Mon Sep 17 00:00:00 2001
 From: theosib <millerti@172.16.221.1>
 Date: Thu, 27 Sep 2018 01:43:35 -0600
 Subject: [PATCH] Optimize redstone algorithm
@@ -19,7 +19,7 @@ Aside from making the obvious class/function renames and obfhelpers I didn't nee
 Just added Bukkit's event system and took a few liberties with dead code and comment misspellings.
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperWorldConfig.java b/src/main/java/com/destroystokyo/paper/PaperWorldConfig.java
-index e26aadfb0..cf9470057 100644
+index 0862a1d6..4ba72275 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperWorldConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperWorldConfig.java
 @@ -432,4 +432,14 @@ public class PaperWorldConfig {
@@ -39,7 +39,7 @@ index e26aadfb0..cf9470057 100644
  }
 diff --git a/src/main/java/com/destroystokyo/paper/util/RedstoneWireTurbo.java b/src/main/java/com/destroystokyo/paper/util/RedstoneWireTurbo.java
 new file mode 100644
-index 000000000..b69803cbf
+index 00000000..b69803cb
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/util/RedstoneWireTurbo.java
 @@ -0,0 +1,915 @@
@@ -964,7 +964,7 @@ index 5bf2fc0b..52a4982e 100644
 +++ b/src/main/java/net/minecraft/server/BlockRedstoneWire.java
 @@ -1,5 +1,7 @@
  package net.minecraft.server;
-
+ 
 +import com.destroystokyo.paper.PaperConfig;
 +import com.destroystokyo.paper.util.RedstoneWireTurbo;
  import com.google.common.collect.ImmutableMap;
@@ -978,13 +978,13 @@ index 5bf2fc0b..52a4982e 100644
 -    private final Set<BlockPosition> i = Sets.newHashSet();
 +    private boolean h = true; public final boolean canProvidePower() { return this.h; } public final void setCanProvidePower(boolean value) { this.h = value; } // Paper - OBFHELPER
 +    private final Set<BlockPosition> i = Sets.newHashSet(); private Set<BlockPosition> getBlocksNeedingUpdate() { return this.i; } // Paper - OBFHELPER
-
+ 
      public BlockRedstoneWire(Block.Info block_info) {
          super(block_info);
 @@ -157,6 +159,117 @@ public class BlockRedstoneWire extends Block {
          return iblockdata1.d(iworldreader, blockposition1, EnumDirection.UP) || iblockdata1.getBlock() == Blocks.HOPPER;
      }
-
+ 
 +    // Paper start - Optimize redstone
 +    // The bulk of the new functionality is found in RedstoneWireTurbo.java
 +    RedstoneWireTurbo turbo = new RedstoneWireTurbo(this);
@@ -1106,16 +1106,16 @@ index 5bf2fc0b..52a4982e 100644
 -            this.a(world, blockposition, iblockdata);
 +            this.updateSurroundingRedstone(world, blockposition, iblockdata, null); // Paper - Optimize redstone
              Iterator iterator = EnumDirection.EnumDirectionLimit.VERTICAL.iterator();
-
+ 
              EnumDirection enumdirection;
 @@ -302,7 +415,7 @@ public class BlockRedstoneWire extends Block {
                      world.applyPhysics(blockposition.shift(enumdirection), this);
                  }
-
+ 
 -                this.a(world, blockposition, iblockdata);
 +                this.updateSurroundingRedstone(world, blockposition, iblockdata, null); // Paper - Optimize redstone
                  Iterator iterator = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
-
+ 
                  EnumDirection enumdirection1;
 @@ -343,7 +456,7 @@ public class BlockRedstoneWire extends Block {
      public void doPhysics(IBlockData iblockdata, World world, BlockPosition blockposition, Block block, BlockPosition blockposition1, boolean flag) {
@@ -1131,9 +1131,9 @@ index 378ac5ae..f8619578 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
 @@ -522,6 +522,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
-
+ 
      }
-
+ 
 +    public void neighborChanged(BlockPosition pos, Block blockIn, BlockPosition fromPos) { a(pos, blockIn, fromPos); } // Paper - OBFHELPER
      public void a(BlockPosition blockposition, Block block, BlockPosition blockposition1) {
          if (!this.isClientSide) {
@@ -1141,10 +1141,11 @@ index 378ac5ae..f8619578 100644
 @@ -1277,6 +1278,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          return this.getBlockFacePower(blockposition.down(), EnumDirection.DOWN) > 0 ? true : (this.getBlockFacePower(blockposition.up(), EnumDirection.UP) > 0 ? true : (this.getBlockFacePower(blockposition.north(), EnumDirection.NORTH) > 0 ? true : (this.getBlockFacePower(blockposition.south(), EnumDirection.SOUTH) > 0 ? true : (this.getBlockFacePower(blockposition.west(), EnumDirection.WEST) > 0 ? true : this.getBlockFacePower(blockposition.east(), EnumDirection.EAST) > 0))));
      }
-
+ 
 +    public int isBlockIndirectlyGettingPowered(BlockPosition pos) { return this.q(pos); } // Paper - OBFHELPER
      public int q(BlockPosition blockposition) {
          int i = 0;
          EnumDirection[] aenumdirection = World.a;
---
-2.24.1
+-- 
+2.25.1.windows.1
+
