@@ -1,4 +1,4 @@
-Basalt [![Build Status](https://github.com/MyCraftServerMC/Basalt/workflows/maven/badge.svg)](https://papermc.io/ci/job/Paper-1.15/)
+Basalt ![Java CI with Maven](https://github.com/MyCraftServerMC/Basalt/workflows/Java%20CI%20with%20Maven/badge.svg)
 ===========
 
 High performance Paper fork that aims to add more gameplay and mechanics.
@@ -7,6 +7,11 @@ High performance Paper fork that aims to add more gameplay and mechanics.
 **Support and Project Discussion:**
  - [Discord](https://discord.io/skyv)
 
+Planned Features
+------
+ * API for NMS files
+ * Custom Items / Blocks / Materials
+ * Play custom audio files client side (without browser)
 
 How To (Server Admins)
 ------
