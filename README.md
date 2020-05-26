@@ -1,4 +1,4 @@
-Basalt [![Build Status](https://papermc.io/ci/job/Paper-1.15/badge/icon)](https://papermc.io/ci/job/Paper-1.15/)
+Basalt [![Build Status](https://github.com/MyCraftServerMC/Basalt/workflows/maven/badge.svg)](https://papermc.io/ci/job/Paper-1.15/)
 ===========
 
 High performance Paper fork that aims to add more gameplay and mechanics.
